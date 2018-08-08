@@ -77,4 +77,6 @@ are not met."
 
     (define-key magit-mode-map magit-arcanist-key 'magit-arcanist-popup)))
 
+(provide 'magit-arcanist)
+
 ;;; magit-arcanist.el ends here
