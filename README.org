@@ -15,9 +15,10 @@ the CLI for [[https://phacility.com/][Phabricator]].
   set prior to the enable function's invocation.
 
   #+begin_src emacs-lisp
-    (require 'magit-arcanist)
+    (with-eval-after-load 'magit
+      (require 'magit-arcanist)
 
-    (setq magit-arcanist-key (kbd "@")) ;; or whatever strikes your fancy
+      (setq magit-arcanist-key (kbd "@")) ;; or whatever strikes your fancy
 
-    (magit-arcanist-enable)
+      (magit-arcanist-enable))
   #+end_src
