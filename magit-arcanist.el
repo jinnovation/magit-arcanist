@@ -32,11 +32,27 @@
 
 (require 'magit)
 
-(magit-define-popup magit-popup-arcanist
+(defun magit-arcanist-diff ()
+  (ignore))
+
+(defun magit-arcanist-land ()
+  (ignore))
+
+;;;###autoload
+(defun magit-arcanist-feature (name)
+  "Runs the following command: arc feature NAME."
+  (interactive (list (magit-read-string "Feature branch name")))
+  (magit-start-process "arc" nil "feature" name))
+
+(magit-define-popup magit-arcanist-popup
+  "Popup console for Arcanist commands."
+  :actions '((?d "Diff" magit-arcanist-diff)
+             (?f "Feature" magit-arcanist-feature)
+             (?l "Land" magit-arcanist-land))
   :max-action-columns 2)
 
 (defun magit-arcanist-enable ()
   (interactive)
-  (define-key magit-mode-map (kbd "<f1>") 'magit-popup-arcanist))
+  (define-key magit-mode-map (kbd "<f1>") 'magit-arcanist-popup))
 
 ;;; magit-arcanist.el ends here
