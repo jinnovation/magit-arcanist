@@ -1,0 +1,17 @@
+#+TITLE: magit-arcanist
+#+AUTHOR: Jonathan Jin
+
+This package provides integration for [[https://magit.vc/][Magit]] to natively interact with [[https://secure.phabricator.com/book/phabricator/article/arcanist/][Arcanist]],
+the CLI for [[https://phacility.com/][Phabricator]].
+
+* Dependencies
+
+  - Magit
+
+* Usage Instructions
+
+  #+begin_src emacs-lisp
+    (require 'magit-arcanist)
+
+    (magit-arcanist-enable)
+  #+end_src
