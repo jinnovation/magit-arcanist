@@ -26,11 +26,16 @@
 
 
 ;;; Commentary:
-;; TODO
+
+;; This package provides integration for Magit to natively interact with
+;; Arcanist (https://secure.phabricator.com/book/phabricator/article/arcanist),
+;; the CLI for Phabricator (https://phacility.com).
 
 ;;; Code:
 
 (require 'magit)
+(require 'magit-popup)
+(require 'magit-arcanist-diff)
 
 (defcustom magit-arcanist-key (kbd "@")
   "Key to invoke the magit-arcanist popup within Magit. This
@@ -41,9 +46,6 @@ needs to be set before the call to `magit-arcanist-enable'."
   "Path to the `arc' executable. `magit-arcanist-enable' will
 fail if this path does not exist."
   :type 'string)
-
-(defun magit-arcanist-diff ()
-  (ignore))
 
 (defun magit-arcanist-land ()
   (ignore))
@@ -56,12 +58,12 @@ fail if this path does not exist."
 
 (magit-define-popup magit-arcanist-popup
   "Popup console for Arcanist commands."
-  :actions '((?d "Diff" magit-arcanist-diff)
+  :actions '((?d "Diff" magit-arcanist-diff-popup)
              (?f "Feature" magit-arcanist-feature)
              (?l "Land" magit-arcanist-land))
   :max-action-columns 2)
 
-(defun magit-arcanist-can-enable-p ()
+(defun magit-arcanist--can-enable-p ()
   "Returns nil if preconditions for magit-arcanist initialization
 are not met."
   (and (executable-find magit-arcanist-arc-executable)))
@@ -71,7 +73,7 @@ are not met."
 `magit-arcanist-key' within `magit-mode-map'."
   (interactive)
   (progn
-    (when (not (magit-arcanist-can-enable-p))
+    (when (not (magit-arcanist--can-enable-p))
         (error "Arcanist executable does not exist: %s"
                magit-arcanist-arc-executable))
 
