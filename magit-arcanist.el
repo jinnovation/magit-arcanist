@@ -32,6 +32,11 @@
 
 (require 'magit)
 
+(defcustom magit-arcanist-key (kbd "@")
+  "Key to invoke the magit-arcanist popup within Magit. This
+needs to be set before the call to `magit-arcanist-enable'."
+  :type 'string)
+
 (defun magit-arcanist-diff ()
   (ignore))
 
@@ -53,6 +58,6 @@
 
 (defun magit-arcanist-enable ()
   (interactive)
-  (define-key magit-mode-map (kbd "<f1>") 'magit-arcanist-popup))
+  (define-key magit-mode-map magit-arcanist-key 'magit-arcanist-popup))
 
 ;;; magit-arcanist.el ends here

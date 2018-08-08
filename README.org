@@ -10,8 +10,14 @@ the CLI for [[https://phacility.com/][Phabricator]].
 
 * Usage Instructions
 
+  All initialization logic is taken care of by the =magit-arcanist-enable=
+  function. Some configuration variables, e.g. =magit-arcanist-key=, need to be
+  set prior to the enable function's invocation.
+
   #+begin_src emacs-lisp
     (require 'magit-arcanist)
+
+    (setq magit-arcanist-key (kbd "@")) ;; or whatever strikes your fancy
 
     (magit-arcanist-enable)
   #+end_src
