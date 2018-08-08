@@ -37,6 +37,11 @@
 needs to be set before the call to `magit-arcanist-enable'."
   :type 'string)
 
+(defcustom magit-arcanist-arc-executable (executable-find "arc")
+  "Path to the `arc' executable. `magit-arcanist-enable' will
+fail if this path does not exist."
+  :type 'string)
+
 (defun magit-arcanist-diff ()
   (ignore))
 
@@ -56,8 +61,20 @@ needs to be set before the call to `magit-arcanist-enable'."
              (?l "Land" magit-arcanist-land))
   :max-action-columns 2)
 
+(defun magit-arcanist-can-enable-p ()
+  "Returns nil if preconditions for magit-arcanist initialization
+are not met."
+  (and (executable-find magit-arcanist-arc-executable)))
+
 (defun magit-arcanist-enable ()
+  "Enables magit-arcanist for use by binding `magit-arcanist-pop' to
+`magit-arcanist-key' within `magit-mode-map'."
   (interactive)
-  (define-key magit-mode-map magit-arcanist-key 'magit-arcanist-popup))
+  (progn
+    (when (not (magit-arcanist-can-enable-p))
+        (error "Arcanist executable does not exist: %s"
+               magit-arcanist-arc-executable))
+
+    (define-key magit-mode-map magit-arcanist-key 'magit-arcanist-popup)))
 
 ;;; magit-arcanist.el ends here
