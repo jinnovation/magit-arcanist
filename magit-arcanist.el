@@ -47,6 +47,9 @@ needs to be set before the call to `magit-arcanist-enable'."
 fail if this path does not exist."
   :type 'string)
 
+(defun magit-arcanist--run-arc-cmd (cmd &optional args)
+  (apply #'magit-start-process magit-arcanist-arc-executable nil cmd args))
+
 (defun magit-arcanist-land ()
   (ignore))
 
@@ -54,7 +57,7 @@ fail if this path does not exist."
 (defun magit-arcanist-feature (name)
   "Runs the following command: arc feature NAME."
   (interactive (list (magit-read-string "Feature branch name")))
-  (magit-start-process "arc" nil "feature" name))
+  (magit-arcanist--run-arc-cmd "feature" name))
 
 (magit-define-popup magit-arcanist-popup
   "Popup console for Arcanist commands."
