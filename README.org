@@ -1,6 +1,9 @@
 #+TITLE: magit-arcanist
 #+AUTHOR: Jonathan Jin
 
+
+NOTE: This project is a work-in-progress.
+
 This package provides integration for [[https://magit.vc/][Magit]] to natively interact with [[https://secure.phabricator.com/book/phabricator/article/arcanist/][Arcanist]],
 the CLI for [[https://phacility.com/][Phabricator]].
 
