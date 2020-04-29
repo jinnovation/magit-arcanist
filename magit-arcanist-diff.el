@@ -36,6 +36,7 @@
   :switches '((?l "No lint" "--nolint")
               (?u "No unit tests" "--nounit")
               (?c "No coverage info" "--no-coverage")
+              (?a "Amend autofixes" "--amend-autofixes")
               (?b "browse" "--browse"))
   :actions '((?d "Diff" magit-arcanist--do-diff)))
 
