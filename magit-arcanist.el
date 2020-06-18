@@ -36,6 +36,7 @@
 (require 'magit)
 (require 'magit-popup)
 (require 'magit-arcanist-diff)
+(require 'magit-arcanist-land)
 
 (defcustom magit-arcanist-key (kbd "@")
   "Key to invoke the magit-arcanist popup within Magit. This
@@ -47,23 +48,29 @@ needs to be set before the call to `magit-arcanist-enable'."
 fail if this path does not exist."
   :type 'string)
 
-(defun magit-arcanist--run-arc-cmd (cmd &optional args)
-  (apply #'magit-start-process magit-arcanist-arc-executable nil cmd args))
+(defcustom magit-arcanist-default-arguments "--no-ansi"
+  "Arguments passed to `arc' executable by default, independent
+of the command being run. Defaults to `--no-ansi' to disable
+color output which does not get interpreted by default subprocess
+output."
+  :type 'string)
 
-(defun magit-arcanist-land ()
-  (ignore))
+(defun magit-arcanist--run-arc-cmd (cmd &rest args)
+  (let ((cmd-with-flags (append (list magit-arcanist-default-arguments cmd)
+                                (seq-filter #'identity args))))
+    (apply #'magit-start-process magit-arcanist-arc-executable nil cmd-with-flags)))
 
 ;;;###autoload
 (defun magit-arcanist-feature (name)
   "Runs the following command: arc feature NAME."
-  (interactive (list (magit-read-string "Feature branch name")))
+  (interactive "sFeature branch name: ")
   (magit-arcanist--run-arc-cmd "feature" name))
 
 (magit-define-popup magit-arcanist-popup
   "Popup console for Arcanist commands."
   :actions '((?d "Diff" magit-arcanist-diff-popup)
              (?f "Feature" magit-arcanist-feature)
-             (?l "Land" magit-arcanist-land))
+             (?l "Land" magit-arcanist-land-popup))
   :max-action-columns 2)
 
 (defun magit-arcanist--can-enable-p ()
